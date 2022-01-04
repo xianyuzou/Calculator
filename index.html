@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie = edge">
+  <link rel="stylesheet" href="./css/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+  <title>房贷计算器</title>
+</head>
+<body>
+  <div class="container">
+    <!--头部logo-->
+    <div class="logo">
+      <a href=""><img src="./img/logo.png" alt="logo"></a>
+    </div>
+
+    <!--计算器主体-->
+    <div id="calculator">
+      <div class="compute">
+          <!--贷款方式选择-->
+          <ul class="nav-tabs clear-float">
+            <li :class="{active: typeOfLoan === 'syndicated'}"
+              @click="e=>this.typeOfLoan='syndicated'">组合贷款</li>
+            <li :class="{active: typeOfLoan === 'provident'}"
+              @click="e=>this.typeOfLoan = 'provident'">公积金贷款</li>
+            <li :class="{active: typeOfLoan === 'commercial'}"
+              @click="e=> this.typeOfLoan = 'commercial'">商业贷款</li>
+          </ul>
+
+          <!--贷款内容填写-->
+          <div class="content">
+              <!--输入房价总额-->
+              <div class="form-group clear-float">
+                  <label class="control-label">房价总额</label>
+                      <div class="form-control">
+                          <input type="number" class="input-control" v-model.number="housePrice" placeholder="万元">
+                      </div>
+              </div>
+              <!--选择首付比例-->
+              <div class="form-group clear-float">
+                  <label class="control-label">首付比例</label>
+                  <div class="form-control">
+                      <input type="number" class="input-control" v-model.number="downPaymentRatio">
+                  </div>
+              </div>
+              <!--输入公积金贷款金额-->
+              <div class="form-group clear-float" v-if="typeOfLoan == 'provident' || typeOfLoan == 'syndicated'">
+                  <label class="control-label">公积金贷款金额</label>
+                  <div class="form-control">
+                      <input type="number" class="input-control" v-model.number="providentFundLoanAmount" placeholder="万元">
+                  </div>
+              </div>
+              <!--选择公积金贷款利率-->
+              <div class="form-group clear-float" v-if="typeOfLoan == 'provident' || typeOfLoan == 'syndicated'">
+                  <label class="control-label">公积金贷款年利率</label>
+                  <div class="form-control">
+                      <input type="number" class="input-control" v-model.number="providentFundLoanRate">
+                  </div>
+              </div>
+              <!--输入商业贷款金额-->
+              <div class="form-group clear-float" v-if="typeOfLoan == 'commercial' || typeOfLoan == 'syndicated'">
+                  <label class="control-label">商业贷款金额</label>
+                  <div class="form-control">
+                      <input type="number" class="input-control" v-model.number="commercialLoanAmount" placeholder="万元">
+                  </div>
+              </div>
+              <!--选择商业贷款利率-->
+              <div class="form-group clear-float" v-if="typeOfLoan == 'commercial' || typeOfLoan == 'syndicated'">
+                  <label class="control-label">商业贷款年利率</label>
+                  <div class="form-control">
+                      <input type="number" class="input-control" v-model.number="commercialLoanRate">
+                  </div>
+              </div>
+              <!--选择贷款年限-->
+              <div class="form-group clear-float">
+                  <label class="control-label">贷款年限</label>
+                  <div class="form-control">
+                      <select v-model.number="loanPeriod" class="input-control" id="years_select"></select>
+                  </div>
+              </div>
+              <!--选择还款方式 等额本金or等额本息 -->
+              <div class="form-group clear-float">
+                  <label class="control-label">还款方式</label>
+                  <div class="form-control clear-float">
+                      <label class="repayment-button">等额本金<input v-model="repayType"  type="radio" value="EPP"></label>
+                      <label class="repayment-button">等额本息<input v-model="repayType"  type="radio" value="ELP"></label>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- 计算结果展示 -->
+      <div class="result" v-if="totalLoan">
+          <div>
+            <table>
+              <thead>
+              <tr>
+                <th>期数</th>
+                <th>月还利息</th>
+                <th>月还本金</th>
+                <th>月供</th>
+                <th>剩余还款</th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="monthly-payments">
+            <table>
+              <tr v-for="item in monthdataArray">
+                <td>{{item.order}}</td>
+                <td>{{item.monthlyInterest}}</td>
+                <td>{{item.monthlyPrincipal}}</td>
+                <td>{{item.monthlyPayment}}</td>
+                <td>{{item.remindingPayments}}</td>
+              </tr>
+          </table>
+          </div>
+          <div id="re2">
+            <table>
+              <tr>
+                <td>首付金额：</td>
+                <td>{{ downPayments | yuan('wan') }}</td>
+              </tr>
+              <tr>
+                <td>贷款总额:</td>
+                <td> {{ totalLoan| yuan('wan') }}</td>
+              </tr>
+              <tr>
+                <td>还款总金额：</td>
+                <td>{{ totalPay | yuan('yuan') }}</td>
+              </tr>
+              <tr>
+                <td>最高月供:</td>
+                <td>{{ highestMonthlyPayment | yuan('yuan') }}</td>
+              </tr>
+            </table>
+          </div>
+      </div>  <!-- result -->
+      
+      <div id="charts"></div>
+      
+    </div> <!-- calculator -->
+
+    
+    <!-- <div id="charts" style="width: 1200px;height:600px;"></div> -->
+
+  </div>  <!-- container --> 
+
+  
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/v-charts/lib/index.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-charts/lib/style.min.css"> -->
+  
+<script type="text/javascript" src="lib/vue.js"></script>
+<script type="text/javascript" src="lib/vue-router.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+    
+</body>
+</html>
