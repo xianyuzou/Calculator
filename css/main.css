@@ -1,0 +1,173 @@
+body{
+  text-align: center;
+}
+
+li {  
+  list-style: none;
+}
+
+input,select {
+  line-height: normal;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+table {
+  text-align: left;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,th {
+  width: 100px;
+  padding: 10px;
+}
+
+/* 主体框架 */
+.container {
+    width: fit-content;
+    height: 1300px;
+    /* max-width: 800px; */
+    margin: 20px auto;
+    padding: 10px;
+    /* background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px  4px #bbb; */
+
+    border-radius: 75px;
+    background: #e6eef4;
+    box-shadow:  35px 35px 70px #c4cacf,
+             -35px -35px 70px #ffffff;
+
+    /* height: 100%; */
+    /* padding-bottom: 20px; */
+
+    display: inline-block;
+    
+  }
+
+/* logo框 */
+.logo{
+    width: max-content;
+    margin-left: 40px;
+}
+
+.nav-tabs li{
+    border-top: 2px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    border-bottom: 1px solid #eee;
+    padding: 10px 50px;
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+}
+  
+.nav-tabs .active{
+    border-top: 2px solid #3aa8ea;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-bottom-color: transparent;
+}
+  
+.clear{
+    clear: both;
+}
+  
+.clear-float:after{
+    content: " ";
+    /* display: inline-block; */
+    display:block;
+    /* clear:right,bottom; */
+    clear: both;
+}
+  
+.form-group{
+    padding-top: 20px;
+}
+  
+.control-label{
+    width: 130px;
+    text-align: right;
+    padding-right: 10px;
+    line-height: 35px;
+    display: block;
+    position: relative;
+    float: left;
+
+    /* border-radius: 75px;
+  background: linear-gradient(145deg, #cfd6dc, #f6ffff);
+  box-shadow:  10px 10px 20px #c4cacf,
+             -10px -10px 20px #ffffff; */
+}
+  
+.repayment-button{
+  width: 80px;
+  text-align: right;
+  padding-right: 20px;
+  line-height: 35px;
+  display: inline-block;
+  position: relative;
+  
+
+  border-radius: 75px;
+  background: #e6eef4;
+  box-shadow:  10px 10px 20px #c4cacf,
+             -10px -10px 20px #ffffff;
+}
+
+.form-control{
+    width: 470px;
+    float: left;
+    height: 36px;
+    position: relative;
+    text-align:center;
+}
+  
+.input-control{
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+    height: 100%;
+    border: 1px solid #3aa8ea;
+    border-radius: 3px;
+}
+  
+.input-control:focus{
+    outline-offset: -2px;
+}
+
+.compute{
+  display: block;
+  float: left;
+}
+
+.result{
+   display: block;
+   float: left;
+  
+}
+
+.monthly-payments{
+  /*将这个div的width和height设为定值，便于设置滚动条及放置*/
+  width: 600px;
+  height: 380px;
+  overflow-y: scroll; /* 设置一个纵向滚动条 方便查看计算结果 */ 
+  overflow-x: none;
+  /* padding-top: 20px; */
+} 
+
+#re2{
+  align-content: center;
+  text-align: center;
+}
+
+#charts{
+  display: block;
+  float:left;
+  overflow-y: scroll; 
+  overflow-x: scroll;
+  width: 1200px;
+  height:600px;
+}
